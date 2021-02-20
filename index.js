@@ -8,6 +8,6 @@ let client = new Client();
 client.login(process.env.BOT_TOKEN)
 	.catch(console.error);
 
-let server = require("./web");
+// let server = require("./web");
 
-module.exports = { client, server };
+module.exports = { client/*, server*/ };
