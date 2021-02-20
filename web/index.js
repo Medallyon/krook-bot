@@ -30,10 +30,12 @@ for (const d in domains)
 	router.set("views", join(__webdir, "routes", d, "views"));
 	router.set("view engine", "ejs");
 
-	if (process.env.NODE_ENV === "production")
-		app.use(vhost(`${d}.${process.env.DOMAIN_ROOT}`, router));
-	else
-		app.use(`/${d}`, router);
+	// if (process.env.NODE_ENV === "production")
+	// 	app.use(vhost(`${d}.${process.env.DOMAIN_ROOT}`, router));
+	// else
+	// 	app.use(`/${d}`, router);
+
+	app.use(`/${d}`, router);
 }
 app.use("/", domains.root);
 
