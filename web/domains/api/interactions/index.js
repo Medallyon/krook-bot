@@ -1,5 +1,4 @@
-const express = require("express")
-	, router = express()
+const router = require("express")()
 	, Queue = require("bull")
 	, middle = require(join(__webdir, "middleware"))
 	, { WebInteraction } = require(join(__webdir, "classes", "WebInteraction.js"));
@@ -7,14 +6,6 @@ const express = require("express")
 // Create / Connect to a named work queue
 const workQueue = new Queue("interactions", process.env.REDIS_URL || "redis://127.0.0.1:6379");
 
-router.use(express.raw({
-	type: "application/json",
-	verify: (req, res, buf, enc) =>
-	{
-		console.log(buf);
-		req.rawBody = buf;
-	}
-}));
 router.use(middle.interactions.securityAuthorization);
 
 router.post("/", function(req, res)

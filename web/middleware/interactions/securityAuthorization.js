@@ -8,10 +8,10 @@ module.exports = function(req, res, next)
 	};
 
 	console.log(signature);
-	console.log(req.rawBody);
+	console.log(req.body);
 
 	const isVerified = nacl.sign.detached.verify(
-		Buffer.from(signature.timestamp + req.rawBody),
+		Buffer.from(signature.timestamp + req.body),
 		Buffer.from(signature.id, "hex"),
 		Buffer.from(process.env.DISCORD_PUBLIC_KEY, "hex")
 	);
