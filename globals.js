@@ -1,3 +1,5 @@
+require("dotenv").config();
+
 global.join = require("path").join;
 
 global.__basedir = __dirname;

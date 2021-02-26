@@ -1,3 +1,4 @@
+require("../globals.js");
 const express = require("express")
 	, bodyParser = require("body-parser")
 	, cookieParser = require("cookie-parser")
@@ -7,8 +8,8 @@ const app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(bodyParser.json());
 app.use(cookieParser());
+app.use(bodyParser.json());
 
 // configure CORS (https://enable-cors.org/server_expressjs.html)
 app.use(function(req, res, next)
