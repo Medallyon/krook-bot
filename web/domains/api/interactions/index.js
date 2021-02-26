@@ -1,5 +1,5 @@
-const router = require("express")()
-	, bodyParser = require("body-parser")
+const express = require("express")
+	, router = express()
 	, Queue = require("bull")
 	, middle = require(join(__webdir, "middleware"))
 	, { WebInteraction } = require(join(__webdir, "classes", "WebInteraction.js"));
@@ -7,9 +7,11 @@ const router = require("express")()
 // Create / Connect to a named work queue
 const workQueue = new Queue("interactions", process.env.REDIS_URL || "redis://127.0.0.1:6379");
 
-router.use(bodyParser.raw({
+router.use(express.raw({
+	type: "application/json",
 	verify: (req, res, buf, enc) =>
 	{
+		console.log(buf);
 		req.rawBody = buf;
 	}
 }));
@@ -17,6 +19,8 @@ router.use(middle.interactions.securityAuthorization);
 
 router.post("/", function(req, res)
 {
+	console.log(req.body);
+
 	if (req.body == null)
 		return res.sendStatus(400);
 
@@ -59,6 +63,7 @@ router.post("/", function(req, res)
 	}*/
 
 	const interaction = new WebInteraction(req.body);
+	console.log("Created new WebInteraction:", interaction);
 
 	// pass interaction to redis queue, which passes it to the client
 	// where it processes AND responds to the webhook using the Interaction's 'token'
