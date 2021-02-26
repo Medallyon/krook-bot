@@ -8,7 +8,12 @@ const app = express();
 
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
-app.use(bodyParser.json());
+app.use(bodyParser.json({
+	verify: (req, res, buf, enc) =>
+	{
+		req.rawBody = buf;
+	}
+}));
 
 // configure CORS (https://enable-cors.org/server_expressjs.html)
 app.use(function(req, res, next)
