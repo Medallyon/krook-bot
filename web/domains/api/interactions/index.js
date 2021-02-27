@@ -8,7 +8,7 @@ const interactionQueue = new Queue("interactions", process.env.REDIS_URL || "red
 
 router.use(middle.interactions.securityAuthorization);
 
-router.post("/", function(req, res)
+/*router.post("/", function(req, res)
 {
 	console.log(req.body);
 
@@ -27,7 +27,7 @@ router.post("/", function(req, res)
 	res.status(200).json({
 		type: 2
 	});
-});
+});*/
 
 module.exports = router;
 
