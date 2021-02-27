@@ -12,12 +12,11 @@ router.get("/", function(req, res)
 const twitchIDs = [];
 router.post("/", async function(req, res)
 {
-	console.log(req.body);
 	if (twitchIDs.includes(req.get("Twitch-Eventsub-Message-Id")))
 		return res.sendStatus(204);
 
 	if (req.body && req.body.challenge)
-		res.send(req.body.challenge);
+		return res.send(req.body.challenge);
 	else
 		res.sendStatus(200);
 
