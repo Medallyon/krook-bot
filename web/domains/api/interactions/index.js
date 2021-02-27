@@ -61,7 +61,7 @@ router.post("/", function(req, res)
 	workQueue.add(interaction)
 		.catch(console.error);
 
-	res.status(202).json({
+	res.status(200).json({
 		type: 5
 	});
 });
