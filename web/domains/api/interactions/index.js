@@ -19,12 +19,7 @@ router.post("/", function(req, res)
 	if (req.body.type === 1)
 		return res.json({ type: 1 });
 
-	res.status(200).json({
-		type: 4,
-		data: {
-			content: "Give me a second..."
-		}
-	});
+	// res.status(200).end();
 
 	// pass interaction to redis queue, which passes it to the client
 	// where it processes AND responds to the webhook using the Interaction's 'token'
