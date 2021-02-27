@@ -3,13 +3,13 @@ class WebInteraction
 	constructor(payload)
 	{
 		this.id = payload.id;
+		this.token = payload.token;
 		this.type = payload.type;
 		this.data = payload.data;
 		this.options = payload.data.options || [];
 		this.guildID = payload.guild_id;
 		this.channelID = payload.channel_id;
 		this.member = payload.member;
-		this.token = payload.token;
 		this.version = payload.version;
 	}
 }

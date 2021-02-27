@@ -61,7 +61,9 @@ router.post("/", function(req, res)
 	workQueue.add(interaction)
 		.catch(console.error);
 
-	res.status(202).end();
+	res.status(202).json({
+		type: 5
+	});
 });
 
 module.exports = router;
