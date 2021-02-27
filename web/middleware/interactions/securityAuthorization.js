@@ -2,6 +2,9 @@ const nacl = require("tweetnacl");
 
 module.exports = function(req, res, next)
 {
+	if (process.env.NODE_ENV !== "production")
+		return next();
+
 	const signature = {
 		id: req.get("X-Signature-Ed25519"),
 		timestamp: req.get("X-Signature-Timestamp")
