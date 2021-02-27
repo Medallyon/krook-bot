@@ -10,16 +10,11 @@ module.exports = function(req, res, next)
 		timestamp: req.get("X-Signature-Timestamp")
 	};
 
-	console.log(signature);
-	console.log(req.rawBody);
-
 	const isVerified = nacl.sign.detached.verify(
 		Buffer.from(signature.timestamp + req.rawBody),
 		Buffer.from(signature.id, "hex"),
 		Buffer.from(process.env.DISCORD_PUBLIC_KEY, "hex")
 	);
-
-	console.log(isVerified);
 
 	if (!isVerified)
 		return res.status(401).end("invalid request signature");

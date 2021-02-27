@@ -4,7 +4,7 @@ const router = require("express")()
 	, { WebInteraction } = require(join(__webdir, "classes", "WebInteraction.js"));
 
 // Create / Connect to a named work queue
-const workQueue = new Queue("interactions", process.env.REDIS_URL || "redis://127.0.0.1:6379");
+const interactionQueue = new Queue("interactions", process.env.REDIS_URL || "redis://127.0.0.1:6379");
 
 router.use(middle.interactions.securityAuthorization);
 
@@ -54,11 +54,10 @@ router.post("/", function(req, res)
 	}*/
 
 	const interaction = new WebInteraction(req.body);
-	console.log("Created new WebInteraction:", interaction);
 
 	// pass interaction to redis queue, which passes it to the client
 	// where it processes AND responds to the webhook using the Interaction's 'token'
-	workQueue.add(interaction)
+	interactionQueue.add(interaction)
 		.catch(console.error);
 
 	res.status(200).json({
@@ -72,10 +71,10 @@ router.post("/", function(req, res)
 module.exports = router;
 
 // You can listen to global events to get notified when jobs are processed
-workQueue.on("global:completed", (id, result) =>
+interactionQueue.on("global:completed", (id, result) =>
 {
 	console.log(`Job {${id}} completed with result ${result}`);
 });
 
-workQueue.on("global:error", console.error);
-workQueue.on("global:failed", console.error);
+interactionQueue.on("global:error", console.error);
+interactionQueue.on("global:failed", console.error);
