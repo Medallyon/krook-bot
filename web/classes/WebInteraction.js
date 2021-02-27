@@ -24,9 +24,9 @@ const InteractionResponseType = {
 
 class WebInteractionResponse
 {
-	constructor(cmdResult = {})
+	constructor(type, cmdResponse)
 	{
-		this.type = cmdResult.type || InteractionResponseType.Pong;
+		this.type = type;
 
 		/*
 		 * tts?					|	boolean				|	is the response TTS
@@ -34,7 +34,7 @@ class WebInteractionResponse
 		   embeds?				|	array of embeds		|	supports up to 10 embeds
 		   allowed_mentions?	|	allowed mentions	|	{ allowed mentions } object
 		 */
-		this.data = cmdResult.data;
+		this.data = cmdResponse;
 	}
 }
 
