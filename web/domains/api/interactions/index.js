@@ -62,7 +62,10 @@ router.post("/", function(req, res)
 		.catch(console.error);
 
 	res.status(200).json({
-		type: 5
+		type: 4,
+		data: {
+			content: "Give me a second..."
+		}
 	});
 });
 
