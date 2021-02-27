@@ -4,6 +4,11 @@ const router = require("express").Router()
 
 const announceQueue = new Queue("twitch_announce", process.env.REDIS_URL || "redis://127.0.0.1:6379");
 
+router.get("/", function(req, res)
+{
+	res.sendStatus(200);
+});
+
 const twitchIDs = [];
 router.post("/", async function(req, res)
 {
