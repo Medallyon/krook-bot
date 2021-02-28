@@ -7,7 +7,7 @@ global.__libdir = join(__dirname, "lib");
 global.__webdir = join(__dirname, "web");
 global.__datadir = join(__dirname, "data");
 
-global.index = function(dir)
+global.index = function(dir, client = null)
 {
 	const fs = require("fs");
 
@@ -16,11 +16,15 @@ global.index = function(dir)
 
 	for (const file of files)
 	{
-		if (file === "index.js")
+		const stat = fs.statSync(join(dir, file));
+		if (stat.isDirectory() || file === "index.js")
 			continue;
 
 		const filePath = join(dir, file);
-		modules[file.replace(".js", "")] = require(filePath);
+		if (client != null)
+			modules[file.replace(".js", "")] = new (require(filePath))(client);
+		else
+			modules[file.replace(".js", "")] = require(filePath);
 	}
 
 	return modules;
