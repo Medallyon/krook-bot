@@ -12,7 +12,7 @@ class Environment
 		return parsed;
 	}
 
-	constructor(parsed, splitSep = null)
+	constructor(parsed = {}, splitSep = null)
 	{
 		parsed = (splitSep != null && this.splitValues(parsed, splitSep)) || parsed;
 		for (const [ key, value ] of Object.entries(Object.assign({}, process.env, parsed)))
@@ -32,7 +32,7 @@ class Environment
 	}
 }
 
-process.env = new Environment(require("dotenv").config().parsed, /[\s,]/);
+process.env = new Environment(require("dotenv").config().parsed || {}, /[\s,]/);
 
 global.join = require("path").join;
 
