@@ -1,4 +1,38 @@
-require("dotenv").config();
+class Environment
+{
+	splitValues(parsed, sep)
+	{
+		for (const [ key, value ] of Object.entries(parsed))
+		{
+			if ((typeof sep) === "string" && value.includes(sep)
+				|| sep instanceof RegExp && sep.test(value))
+				parsed[key] = value.split(sep);
+		}
+
+		return parsed;
+	}
+
+	constructor(parsed, splitSep = null)
+	{
+		parsed = (splitSep != null && this.splitValues(parsed, splitSep)) || parsed;
+		for (const [ key, value ] of Object.entries(Object.assign({}, process.env, parsed)))
+			Object.defineProperty(this, key, {
+				value,
+				enumerable: true,
+				writable: true
+			});
+	}
+
+	valueOf()
+	{
+		const value = {};
+		for (const [ key, val ] of Object.entries(this))
+			value[key] = val;
+		return value;
+	}
+}
+
+process.env = new Environment(require("dotenv").config().parsed, /[\s,]/);
 
 global.join = require("path").join;
 
@@ -48,4 +82,8 @@ Array.prototype.shuffle = function()
 	}
 
 	return this;
+};
+Array.prototype.random = function()
+{
+	return this[Math.floor(Math.random() * this.length)];
 };
