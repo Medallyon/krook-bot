@@ -18,6 +18,7 @@
     "discord-interactions": "^1.5.2",
     "discord.js": "^12.5.1",
     "dotenv": "^8.2.0",
+    "dotenv-parse-variables": "^2.0.0",
     "express": "^4.17.1",
     "fs-extra": "^8.1.0",
     "moment": "^2.28.0",
