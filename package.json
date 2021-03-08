@@ -1,13 +1,14 @@
 {
-  "name": "medallyon-bot-framework",
-  "version": "0.0.4",
+  "name": "krook-bot",
+  "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
+    "client": "node index.js",
+    "server": "node ./web/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
+  "author": "https://github.com/medallyon",
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.19.0",
