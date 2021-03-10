@@ -110,7 +110,6 @@ class Twitch
 
 	_fetchUser(id)
 	{
-		console.log(id);
 		return new Promise((resolve, reject) =>
 		{
 			if (this._users.has(id))
@@ -121,7 +120,6 @@ class Twitch
 				if (err)
 					return reject(err);
 
-				console.log(body);
 				resolve(body.data[0]);
 				this._users.set(id, body.data[0]);
 			});
@@ -139,16 +137,14 @@ class Twitch
 	{
 		return new Promise((resolve, reject) =>
 		{
-			console.log({ qs: { user_id, user_login: user_id } });
 			this.request("/streams", { qs: { user_id, user_login: user_id } }, (err, res, body) =>
 			{
 				if (err)
 					return reject(err);
 
 				if (!body.data.length)
-					return reject(new Error(`No streams alive for ${user_id}`));
+					return reject(new Error(`No streams live for ${user_id}`));
 
-				console.log(body);
 				const stream = body.data[0];
 				if (!stream.tag_ids)
 					return resolve(stream);
@@ -168,13 +164,11 @@ class Twitch
 						return resolve(stream);
 					}
 
-					console.log(tags);
+					stream.tags = tags.data;
+					resolve(stream);
 
 					for (const tag of tags.data)
 						this._tags.set(tag.tag_id, tag);
-
-					stream.tags = tags.data;
-					resolve(stream);
 				});
 			});
 		});

@@ -23,7 +23,6 @@ router.post("/", async function(req, res)
 	await twitch.init();
 
 	const event = req.body.event;
-	console.log(event);
 	twitch.users.fetch(event.broadcaster_user_id)
 		.then(streamer =>
 		{
