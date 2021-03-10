@@ -23,11 +23,12 @@ router.post("/", async function(req, res)
 	const event = req.body.event;
 	await twitch.init();
 
-	twitch.users.fetch({ id: event.broadcaster_user_id })
+	announceQueue.add({ event });
+	/*twitch.users.fetch({ id: event.broadcaster_user_id })
 		.then(streamer =>
 		{
 			announceQueue.add({ event, streamer });
-		}).catch(console.error);
+		}).catch(console.error);*/
 });
 
 module.exports = router;
