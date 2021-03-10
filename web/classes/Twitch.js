@@ -92,8 +92,9 @@ class Twitch
 
 			this.request("/tags/streams", { tag_id }, (err, res, body) =>
 			{
-				if (err)
-					return reject(err);
+				if (err || !body.status.toString().startsWith("2"))
+					return reject(err || body);
+
 				resolve(body.data[0]);
 				this._tags.set(tag_id, body.data[0]);
 			});
@@ -109,15 +110,18 @@ class Twitch
 
 	_fetchUser(id)
 	{
+		console.log(id);
 		return new Promise((resolve, reject) =>
 		{
 			if (this._users.has(id))
 				return resolve(this._users.get(id));
 
-			this.request("/users", { id }, (err, res, body) =>
+			this.request("/users", { qs: { id } }, (err, res, body) =>
 			{
-				if (err)
-					return reject(err);
+				if (err || !body.status.toString().startsWith("2"))
+					return reject(err || body);
+
+				console.log(body);
 				resolve(body.data[0]);
 				this._users.set(id, body.data[0]);
 			});
@@ -131,15 +135,16 @@ class Twitch
 		};
 	}
 
-	_fetchStream(id)
+	_fetchStream(user_id)
 	{
 		return new Promise((resolve, reject) =>
 		{
-			this.request("/streams", { id }, (err, res, body) =>
+			this.request("/streams", { qs: { user_id } }, (err, res, body) =>
 			{
-				if (err)
-					return reject(err);
+				if (err || !body.status.toString().startsWith("2"))
+					return reject(err || body);
 
+				console.log(body);
 				const stream = body.data[0];
 				if (stream.tag_ids.every(tag => this._tags.has(tag)))
 				{
@@ -147,10 +152,16 @@ class Twitch
 					return resolve(stream);
 				}
 
-				this.request("/streams/tags", { id }, (err, res, tags) =>
+				const broadcaster_id = user_id;
+				this.request("/streams/tags", { qs: { broadcaster_id } }, (err, res, tags) =>
 				{
-					if (err)
-						return reject(err);
+					if (err || !tags.status.toString().startsWith("2"))
+					{
+						console.warn(err);
+						return resolve(stream);
+					}
+
+					console.log(tags);
 
 					for (const tag of tags.data)
 						this._tags.set(tag.tag_id, tag);
