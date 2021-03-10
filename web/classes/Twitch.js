@@ -92,8 +92,8 @@ class Twitch
 
 			this.request("/tags/streams", { tag_id }, (err, res, body) =>
 			{
-				if (err || !body.status.toString().startsWith("2"))
-					return reject(err || body);
+				if (err)
+					return reject(err);
 
 				resolve(body.data[0]);
 				this._tags.set(tag_id, body.data[0]);
@@ -118,8 +118,8 @@ class Twitch
 
 			this.request("/users", { qs: { id } }, (err, res, body) =>
 			{
-				if (err || !body.status.toString().startsWith("2"))
-					return reject(err || body);
+				if (err)
+					return reject(err);
 
 				console.log(body);
 				resolve(body.data[0]);
@@ -141,8 +141,8 @@ class Twitch
 		{
 			this.request("/streams", { qs: { user_id } }, (err, res, body) =>
 			{
-				if (err || !body.status.toString().startsWith("2"))
-					return reject(err || body);
+				if (err)
+					return reject(err);
 
 				console.log(body);
 				const stream = body.data[0];
@@ -155,7 +155,7 @@ class Twitch
 				const broadcaster_id = user_id;
 				this.request("/streams/tags", { qs: { broadcaster_id } }, (err, res, tags) =>
 				{
-					if (err || !tags.status.toString().startsWith("2"))
+					if (err)
 					{
 						console.warn(err);
 						return resolve(stream);
