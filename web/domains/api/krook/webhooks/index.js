@@ -20,15 +20,18 @@ router.post("/", async function(req, res)
 	else
 		res.sendStatus(200);
 
-	const event = req.body.event;
 	await twitch.init();
 
-	announceQueue.add({ event });
-	/*twitch.users.fetch({ id: event.broadcaster_user_id })
+	const event = req.body.event;
+	twitch.users.fetch(event.broadcaster_user_id)
 		.then(streamer =>
 		{
-			announceQueue.add({ event, streamer });
-		}).catch(console.error);*/
+			twitch.streams.fetch(event.broadcaster_user_id)
+				.then(stream =>
+				{
+					announceQueue.add({ event, streamer, stream });
+				}).catch(console.error);
+		}).catch(console.error);
 });
 
 module.exports = router;
