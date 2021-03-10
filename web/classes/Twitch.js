@@ -139,13 +139,20 @@ class Twitch
 	{
 		return new Promise((resolve, reject) =>
 		{
-			this.request("/streams", { qs: { user_id } }, (err, res, body) =>
+			console.log({ qs: { user_id, user_login: user_id } });
+			this.request("/streams", { qs: { user_id, user_login: user_id } }, (err, res, body) =>
 			{
 				if (err)
 					return reject(err);
 
+				if (!body.data.length)
+					return reject(new Error(`No streams alive for ${user_id}`));
+
 				console.log(body);
 				const stream = body.data[0];
+				if (!stream.tag_ids)
+					return resolve(stream);
+
 				if (stream.tag_ids.every(tag => this._tags.has(tag)))
 				{
 					stream.tags = stream.tag_ids.map(tag => this._tags.get(tag));
