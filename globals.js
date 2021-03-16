@@ -7,20 +7,35 @@ global.__libdir = join(__dirname, "lib");
 global.__webdir = join(__dirname, "web");
 global.__datadir = join(__dirname, "data");
 
-global.index = function(dir, client = null)
+global.index = function(dir, recursive = Infinity, client = null)
 {
-	const fs = require("fs");
+	const fs = require("fs")
+		, files = fs.readdirSync(dir)
+		, modules = {};
 
-	let modules = {}
-		, files = fs.readdirSync(dir);
+	if (recursive instanceof require("discord.js").Client)
+	{
+		client = recursive;
+		recursive = Infinity;
+	}
 
 	for (const file of files)
 	{
-		const stat = fs.statSync(join(dir, file));
-		if (stat.isDirectory() || file === "index.js")
+		if (file === "index.js")
 			continue;
 
-		const filePath = join(dir, file);
+		const filePath = join(dir, file)
+			, stat = fs.statSync(filePath);
+
+		if (stat.isDirectory())
+		{ // 'recursive' here stands for the the amount of dirs we should travel and is controlled by decreasing with every directory call
+			if (recursive === 0)
+				continue;
+
+			modules[file] = global.index(filePath, recursive - 1, client);
+			continue;
+		}
+
 		if (client != null)
 			modules[file.replace(".js", "")] = new (require(filePath))(client);
 		else
