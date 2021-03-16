@@ -2,7 +2,7 @@ const router = require("express").Router()
 	, Queue = require("bull")
 	, twitch = new (require(join(__webdir, "classes", "Twitch.js")))();
 
-const announceQueue = new Queue("twitch-announce", process.env.REDIS_TLS_URL || process.env.REDIS_URL || "redis://127.0.0.1:6379");
+const announceQueue = new Queue("twitch-announce", process.env.REDIS_URL || "redis://127.0.0.1:6379");
 
 router.get("/", function(req, res)
 {
