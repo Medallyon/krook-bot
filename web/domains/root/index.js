@@ -8,7 +8,7 @@ router.set("view engine", "ejs");
 /* GET / */
 router.get("/", function(req, res)
 {
-	res.send("Hello World :)");
+	res.send("Hello World :)\nJoin our cool discord server: <a href='https://discord.gg/zUdwuCU'>https://discord.gg/zUdwuCU</a>");
 });
 
 module.exports = router;
