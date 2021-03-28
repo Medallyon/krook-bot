@@ -6,6 +6,7 @@
   "scripts": {
     "client": "node index.js",
     "server": "node ./web/index.js",
+    "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "https://github.com/medallyon",
