@@ -1,18 +1,10 @@
 {
-  "ecmaVersion": 8,
+  "ecmaVersion": "8",
   "libs": [],
   "loadEagerly": [
+    "globals.js",
     "node_modules/discord.js/src/structures/**/*.js"
   ],
-  "dontLoad": [
-    "node_modules/**"
-  ],
-  "plugins": {
-    "node": {},
-    "doc_comment": {
-      "fullDocs": true,
-      "strong": true
-    },
-    "commonjs": {}
-  }
+  "dontLoad": [],
+  "plugins": {}
 }
