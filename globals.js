@@ -2,11 +2,34 @@ require("dotenv").config();
 
 global.join = require("path").join;
 
+/**
+ * Path to the base directory (usually equivalent to cwd)
+ * @type {String}
+ */
 global.__basedir = __dirname;
+/**
+ * Path to the library directory
+ * @type {String}
+ */
 global.__libdir = join(__dirname, "lib");
+/**
+ * Path to the web directory
+ * @type {String}
+ */
 global.__webdir = join(__dirname, "web");
+/**
+ * Path to the Data directory
+ * @type {String}
+ */
 global.__datadir = join(__dirname, "data");
 
+/**
+ * Synchronously iterate through modules in a directory and require them
+ * @param  {String} dir The target module directory
+ * @param  {Number} [recursive=Infinity] The depth of the index, recurse into directories
+ * @param  {Client} [client=null] An optional Discord client to pass into classes
+ * @return {Object} An object of the aggregated modules
+ */
 global.index = function(dir, recursive = Infinity, client = null)
 {
 	const fs = require("fs")
@@ -45,14 +68,26 @@ global.index = function(dir, recursive = Infinity, client = null)
 	return modules;
 };
 
+/**
+ * Return the first element of this array
+ * @return {*}
+ */
 Array.prototype.first = function()
 {
 	return this[0];
 };
+/**
+ * Return the last element of this array
+ * @return {*}
+ */
 Array.prototype.last = function()
 {
 	return this[this.length - 1];
 };
+/**
+ * Shuffle this array, Durstenfeld-style
+ * @return {Array} This array
+ */
 Array.prototype.shuffle = function()
 {
 	// https://stackoverflow.com/a/12646864
@@ -64,6 +99,10 @@ Array.prototype.shuffle = function()
 
 	return this;
 };
+/**
+ * Pick a random value from this array
+ * @return {*}
+ */
 Array.prototype.random = function()
 {
 	return this[Math.floor(Math.random() * this.length)];
