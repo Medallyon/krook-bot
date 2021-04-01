@@ -108,3 +108,6 @@ dist
 
 # SFTP config file
 sftp-config.json
+
+# Data directory
+data/
