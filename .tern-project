@@ -3,7 +3,8 @@
   "libs": [],
   "loadEagerly": [
     "globals.js",
-    "node_modules/discord.js/src/structures/**/*.js"
+    "node_modules/discord.js/src/structures/**/*.js",
+    "node_modules/better-discord-interactions/**/*.js"
   ],
   "dontLoad": [],
   "plugins": {}
