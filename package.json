@@ -1,6 +1,6 @@
 {
   "name": "krook-bot",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "`.env` looks something like this:\r ```ini\r # =================== #\r # ==== WEB STUFF ==== #\r # =================== #",
   "main": "index.js",
   "scripts": {
